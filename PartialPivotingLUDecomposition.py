@@ -43,31 +43,31 @@ def partialpivotingLUDecomposition(A, matrix_size):
         amax = 0
         m = 0
         for i in range(k, matrix_size):
-            if (abs(A[i][k]) > amax):
+            if (abs(A[i][k]) > amax): #find the greatest element in the kth column
                 amax = abs(A[i][k])
-                m = i
+                m = i #store pivot position
                 
-        if amax == 0:
+        if amax == 0: #matrix A is singular so U must be singlular
             flag = 1
             interchanges[k] = 0
         else:
-            interchanges[k] = m
+            interchanges[k] = m #store interchanges (same as storing a 1 in P[k][m] in permutation matrix)
             if m != k:
                 for i in range(matrix_size):
-                    A[k][i], A[m][i] = swap(A[k][i], A[m][i])
+                    A[k][i], A[m][i] = swap(A[k][i], A[m][i]) #interchange element i in row k with row m
             
             for i in range(k+1, matrix_size):
-                A[i][k] /= A[k][k]
+                A[i][k] /= A[k][k] #set multipliers in L
                 
             for i in range(k+1, matrix_size):
                 for j in range(k+1, matrix_size):
-                    A[i][j] = A[i][j] - A[i][k]*A[k][j]
+                    A[i][j] = A[i][j] - A[i][k]*A[k][j] #row operations
                     
-    if A[matrix_size-1][matrix_size-1] == 0:
+    if A[matrix_size-1][matrix_size-1] == 0: #matrix A is singular so U must be singular
         flag = 1
         interchanges[matrix_size-1] = 0
     else:
-        interchanges[matrix_size-1] = matrix_size-1
+        interchanges[matrix_size-1] = matrix_size-1 #store interchanges (same as storing a 1 in P[k][matrix_size-1] in permutation matrix)
         
     if flag == 1:
         print("Matrix A is singular, so U will be singular\n")
@@ -78,11 +78,11 @@ def partialpivotingLUDecomposition(A, matrix_size):
 def solvePLUsystem(A, b, matrix_size, interchanges):
     for k in range(matrix_size):
         m = int(interchanges[k])  
-        b[k], b[m] = swap(b[k], b[m])
+        b[k], b[m] = swap(b[k], b[m]) #interchange element k and m
     
     for j in range(matrix_size-1):
         for i in range(j+1, matrix_size):
-            b[i] = b[i] - A[i][j]*b[j]
+            b[i] = b[i] - A[i][j]*b[j] #column oriented forward substition
             
     for j in reversed(range(0, matrix_size)):
         if A[j][j] == 0:
@@ -91,7 +91,7 @@ def solvePLUsystem(A, b, matrix_size, interchanges):
 
         b[j] = b[j]/A[j][j]
         for i in range(j):
-            b[i] = b[i] - A[i][j]*b[j]
+            b[i] = b[i] - A[i][j]*b[j] #column oriented back substitution
     
 if __name__ == "__main__":
     main()
