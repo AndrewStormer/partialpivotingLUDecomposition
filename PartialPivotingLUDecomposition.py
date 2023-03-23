@@ -67,7 +67,7 @@ def partialpivotingLUDecomposition(A, matrix_size):
         flag = 1
         interchanges[matrix_size-1] = 0
     else:
-        interchanges[matrix_size-1] = matrix_size-1 #store interchanges (same as storing a 1 in P[k][matrix_size-1] in permutation matrix)
+        interchanges[matrix_size-1] = matrix_size-1
         
     if flag == 1:
         print("Matrix A is singular, so U will be singular\n")
